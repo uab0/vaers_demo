@@ -211,13 +211,13 @@ def explain_with_shap(xgb_model, feature_df):
 def render_shap_text(risk_up, risk_down):
     """將 SHAP 聚合結果渲染為白話文條列。"""
     if risk_up:
-        st.markdown("**⬇ 以下因素推升了您的風險：**")
+        st.markdown("**⬆ 推升風險因素：**")
         for name, val in risk_up:
             display_name = FEATURE_NAME_MAP.get(name, name)
             st.error(f"• {display_name}（影響程度：{abs(val):.4f}）")
 
     if risk_down:
-        st.markdown("**⬇ 以下因素降低了您的風險：**")
+        st.markdown("**⬇ 降低風險因素：**")
         for name, val in risk_down:
             display_name = FEATURE_NAME_MAP.get(name, name)
             st.success(f"• {display_name}（影響程度：{abs(val):.4f}）")
