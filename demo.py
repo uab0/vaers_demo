@@ -263,8 +263,8 @@ def main():
         st.header("基本資料輸入")
 
         age = st.number_input(
-            "年齡 (AGE_YRS)", min_value=0, max_value=120, value=30, step=1
-        )
+            "年齡", min_value=0, max_value=120, value=30, step=1
+        ) # AGE_YRS
         if age < 5:
             st.info(
                 "提醒：COVID-19 疫苗在多數國家建議 5 歲以上接種，"
@@ -274,24 +274,30 @@ def main():
         sex = st.radio("性別", ["男性", "女性"])
         sex_f = 1 if sex == "女性" else 0
 
-        vaccinated = st.radio("是否已施打 COVID-19 疫苗？", ["是", "否"])
+        symptom_status = st.radio(
+            "施打疫苗後是否出現不適症狀？",
+            ["是，已出現不適症狀", "否，已施打但無不適", "尚未施打疫苗"]
+        )
 
-        if vaccinated == "否":
-            st.warning(
-                "本系統基於 VAERS 資料庫訓練，專為評估「施打 COVID-19 疫苗後」"
-                "的潛在風險所設計。若您尚未施打疫苗，此風險評估並不適用於您的狀況。"
-            )
-            dose_num = None
-            numdays = None
-            can_analyze = False
-        else:
-            dose_num = st.number_input(
-                "疫苗劑次 (DOSE_NUM)", min_value=1, max_value=10, value=1, step=1
-            )
+        dose_num = st.number_input(
+            "疫苗劑次（尚未施打者請填預計施打劑次）",
+            min_value=1, max_value=10, value=1, step=1
+        ) # DOSE_NUM
+
+        if symptom_status == "是，已出現不適症狀":
             numdays = st.number_input(
-                "發病/不適天數 (NUMDAYS)", min_value=0, max_value=365, value=1, step=1
-            )
-            can_analyze = True
+                "不適天數", min_value=1, max_value=365, value=1, step=1
+            ) # NUMDAYS
+        else:
+            # 無症狀或尚未施打：以中位數 1 天作為預設值
+            numdays = 1
+            if symptom_status == "尚未施打疫苗":
+                st.info(
+                    "此為施打前風險預估，系統將以您的基本資料與用藥狀況進行評估，"
+                    "結果僅供參考。"
+                )
+
+        can_analyze = True
 
     # ---- 主畫面：用藥輸入 ----
     st.subheader("用藥狀況")
