@@ -37,7 +37,7 @@ FEATURE_NAME_MAP = {
 # 依據模型校準結果與臨床意義進行調整。目前以 s2_opt_threshold (≈ 2.28) 為基準。
 TH_YELLOW = 1.14   # 黃燈下限
 TH_ORANGE = 2.28   # 橘燈下限 (= s2_opt_threshold)
-TH_RED = 3.50      # 紅燈下限
+TH_RED = 4.28      # 紅燈下限
 
 
 # ============================================================
@@ -94,7 +94,7 @@ def build_features(age, sex_f, numdays, dose_num, selected_drugs, drug_vectors_d
     sex_f : int
         性別 (女性=1, 男性=0)
     numdays : int
-        發病/不適天數
+        施打後幾天出現不適症狀
     dose_num : int
         疫苗劑次
     selected_drugs : list[str]
@@ -288,7 +288,7 @@ def main():
 
     if symptom_status == "是，已出現不適症狀":
         numdays = st.number_input(
-            "不適天數", min_value=1, max_value=365, value=1, step=1
+            "施打後幾天開始出現不適症狀？", min_value=1, max_value=365, value=1, step=1
         ) # NUMDAYS
     else:
         # 無症狀或尚未施打：以中位數 1 天作為預設值
