@@ -261,19 +261,15 @@ def main():
     # ---- 基本資料輸入 ----
     st.subheader("基本資料輸入")
 
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        age = st.number_input(
-            "年齡", min_value=0, max_value=120, value=30, step=1
-        ) # AGE_YRS
-    with col2:
-        sex = st.radio("性別", ["男性", "女性"])
-        sex_f = 1 if sex == "女性" else 0
-    with col3:
-        dose_num = st.number_input(
-            "疫苗劑次（尚未施打者請填預計施打劑次）",
-            min_value=1, max_value=10, value=1, step=1
-        ) # DOSE_NUM
+    age = st.number_input(
+        "年齡", min_value=0, max_value=120, value=30, step=1
+    ) # AGE_YRS
+    sex = st.radio("性別", ["男性", "女性"], horizontal=True)
+    sex_f = 1 if sex == "女性" else 0
+    dose_num = st.number_input(
+        "疫苗劑次（尚未施打者請填預計施打劑次）",
+        min_value=1, max_value=10, value=1, step=1
+    ) # DOSE_NUM
 
     if age < 5:
         st.info(
