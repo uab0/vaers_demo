@@ -211,13 +211,13 @@ def explain_with_shap(xgb_model, feature_df):
 def render_shap_text(risk_up, risk_down):
     """將 SHAP 聚合結果渲染為白話文條列。"""
     if risk_up:
-        st.markdown("**⬆️ 以下因素推升了您的風險：**")
+        st.markdown("**⬇ 以下因素推升了您的風險：**")
         for name, val in risk_up:
             display_name = FEATURE_NAME_MAP.get(name, name)
             st.error(f"• {display_name}（影響程度：{abs(val):.4f}）")
 
     if risk_down:
-        st.markdown("**⬇️ 以下因素降低了您的風險：**")
+        st.markdown("**⬇ 以下因素降低了您的風險：**")
         for name, val in risk_down:
             display_name = FEATURE_NAME_MAP.get(name, name)
             st.success(f"• {display_name}（影響程度：{abs(val):.4f}）")
@@ -246,7 +246,7 @@ def main():
         layout="wide"
     )
 
-    st.title("🛡️ COVID-19 疫苗不良反應風險預警系統")
+    st.title("COVID-19 疫苗不良反應風險預警系統")
     st.markdown("本系統基於 VAERS 資料庫訓練之 XGBoost 模型，提供個體化風險評估與 SHAP 解釋。")
     st.caption(
         "⚠️ 免責聲明：本系統僅供參考，不構成醫療診斷。"
@@ -260,7 +260,7 @@ def main():
 
     # ---- 側邊欄：基本資料輸入 ----
     with st.sidebar:
-        st.header("📋 基本資料輸入")
+        st.header("基本資料輸入")
 
         age = st.number_input(
             "年齡 (AGE_YRS)", min_value=0, max_value=120, value=30, step=1
@@ -294,7 +294,7 @@ def main():
             can_analyze = True
 
     # ---- 主畫面：用藥輸入 ----
-    st.subheader("💊 用藥狀況")
+    st.subheader("用藥狀況")
     selected_drugs = st.multiselect(
         "請選擇您目前正在服用的藥物（可多選）",
         options=drug_names,
@@ -306,7 +306,7 @@ def main():
     st.divider()
 
     # ---- 分析按鈕 ----
-    if st.button("🚀 開始分析", disabled=(not can_analyze), type="primary"):
+    if st.button("開始分析", disabled=(not can_analyze), type="primary"):
         with st.spinner("正在進行風險分析..."):
             # 特徵工程
             feature_df = build_features(
@@ -335,7 +335,7 @@ def main():
             st.divider()
 
             # SHAP 解釋
-            st.subheader("🔍 風險因子解讀")
+            st.subheader("風險因子解讀")
             st.caption(
                 "風險因子分析基於模型原始預測邏輯，"
                 "風險分數經過機率校準後可能略有差異。"
@@ -348,7 +348,7 @@ def main():
                 render_shap_text(risk_up, risk_down)
                 render_shap_waterfall(shap_values)
             except Exception as e:
-                st.warning(f"⚠️ SHAP 解釋功能暫時無法使用：{e}")
+                st.warning(f"SHAP 解釋功能暫時無法使用：{e}")
 
 
 if __name__ == "__main__":
