@@ -33,7 +33,7 @@ FEATURE_NAME_MAP = {
     'ClinVec_aggregated': '您目前的用藥組合',
 }
 
-# TODO: 以下燈號切點為開發階段預設值
+# 以下燈號切點為開發階段預設值
 # 依據模型校準結果與臨床意義進行調整。目前以 s2_opt_threshold (≈ 2.28) 為基準。
 TH_YELLOW = 1.14   # 黃燈下限
 TH_ORANGE = 2.28   # 橘燈下限 (= s2_opt_threshold)
@@ -281,7 +281,7 @@ def main():
 
     # ---- 症狀與用藥 ----
     symptom_status = st.radio(
-        "施打疫苗後是否出現不適症狀？",
+        "發病天數（施打疫苗後是否出現不適症狀）",
         ["是，已出現不適症狀", "否，已施打但無不適", "尚未施打疫苗"],
         horizontal=True
     )
