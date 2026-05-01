@@ -25,7 +25,7 @@ FEATURE_COLUMNS = (
 # 白話文映射表
 FEATURE_NAME_MAP = {
     'AGE_YRS': '年齡',
-    'SEX_F': '性別（女性）',
+    'SEX_F': '生理性別',
     'NUMDAYS_LOG': '發病天數',
     'DOSE_NUM': '疫苗劑次',
     'DRUG_COUNT': '用藥數量',
@@ -33,7 +33,7 @@ FEATURE_NAME_MAP = {
     'ClinVec_aggregated': '您目前的用藥組合',
 }
 
-# TODO: 以下燈號切點為開發階段預設值，需由資料科學家或臨床專家
+# TODO: 以下燈號切點為開發階段預設值
 # 依據模型校準結果與臨床意義進行調整。目前以 s2_opt_threshold (≈ 2.28) 為基準。
 TH_YELLOW = 1.14   # 黃燈下限
 TH_ORANGE = 2.28   # 橘燈下限 (= s2_opt_threshold)
@@ -92,9 +92,9 @@ def build_features(age, sex_f, numdays, dose_num, selected_drugs, drug_vectors_d
     age : int
         使用者年齡
     sex_f : int
-        性別 (女性=1, 男性=0)
+        生理性別 (女性=1, 男性=0)
     numdays : int
-        施打後幾天出現不適症狀
+        發病天數 (施打後幾天出現不適症狀)
     dose_num : int
         疫苗劑次
     selected_drugs : list[str]
@@ -228,7 +228,7 @@ def render_shap_text(risk_up, risk_down):
 
 def render_shap_waterfall(shap_values):
     """在 expander 中渲染原始 134 維 SHAP Waterfall 圖。"""
-    with st.expander("點此查看詳細特徵貢獻圖（專業人員適用）"):
+    with st.markdown("特徵貢獻圖"):
         shap.plots.waterfall(shap_values[0], max_display=15, show=False)
         fig = plt.gcf()
         st.pyplot(fig)
@@ -264,7 +264,7 @@ def main():
     age = st.number_input(
         "年齡", min_value=0, max_value=120, value=30, step=1
     ) # AGE_YRS
-    sex = st.radio("性別", ["男性", "女性"], horizontal=True)
+    sex = st.radio("生理性別", ["男性", "女性"], horizontal=True)
     sex_f = 1 if sex == "女性" else 0
     dose_num = st.number_input(
         "疫苗劑次（尚未施打者請填預計施打劑次）",
