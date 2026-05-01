@@ -228,12 +228,12 @@ def render_shap_text(risk_up, risk_down):
 
 def render_shap_waterfall(shap_values):
     """在 expander 中渲染原始 134 維 SHAP Waterfall 圖。"""
-    with st.markdown("特徵貢獻圖"):
-        shap.plots.waterfall(shap_values[0], max_display=15, show=False)
-        fig = plt.gcf()
-        st.pyplot(fig)
-        plt.clf()
-        plt.close('all')
+    st.subheader("詳細特徵貢獻圖")
+    shap.plots.waterfall(shap_values[0], max_display=15, show=False)
+    fig = plt.gcf()
+    st.pyplot(fig)
+    plt.clf()
+    plt.close('all')
 
 
 # ============================================================
