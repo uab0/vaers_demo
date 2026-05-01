@@ -281,14 +281,14 @@ def main():
 
     # ---- 症狀與用藥 ----
     symptom_status = st.radio(
-        "發病天數（施打疫苗後是否出現不適症狀）",
+        "施打疫苗後是否出現不適症狀",
         ["是，已出現不適症狀", "否，已施打但無不適", "尚未施打疫苗"],
         horizontal=True
     )
 
     if symptom_status == "是，已出現不適症狀":
         numdays = st.number_input(
-            "施打後幾天開始出現不適症狀？", min_value=1, max_value=365, value=1, step=1
+            "發病天數（施打後幾天開始出現不適症狀？）", min_value=1, max_value=365, value=1, step=1
         ) # NUMDAYS
     else:
         # 無症狀或尚未施打：以中位數 1 天作為預設值
